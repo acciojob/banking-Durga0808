@@ -1,5 +1,9 @@
 package com.driver;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class CurrentAccount extends BankAccount{
     String tradeLicenseId; //consists of Uppercase English characters only
 
@@ -18,16 +22,25 @@ public class CurrentAccount extends BankAccount{
         // If the license Id is valid, do nothing
         // If the characters of the license Id can be rearranged to create any valid license Id
         // If it is not possible, throw "Valid License can not be generated" Exception
-        while(!isvalid(tradeLicenseId)){
-            char arr[]=tradeLicenseId.toCharArray();
-            for(int i=0;i<arr.length-1;i++){
-                if(arr[i]==arr[i+1]) {
-                    char temp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = temp;
-                }
+        if(!isvalid(tradeLicenseId)){
+            List<Character> chars = new ArrayList<>();
+            for (char c : tradeLicenseId.toCharArray()) {
+                chars.add(c);
             }
-            tradeLicenseId=new String(arr);
+
+            // Rearrange characters to create a valid license ID
+            Collections.shuffle(chars);
+
+            StringBuilder sb=new StringBuilder();
+            for (char c : chars) {
+               sb.append(c);
+            }
+
+            if (isvalid(sb.toString())) {
+               tradeLicenseId=sb.toString();
+            } else {
+                throw new Exception("Valid License can not be generated");
+            }
         }
     }
     private boolean isvalid (String id){
