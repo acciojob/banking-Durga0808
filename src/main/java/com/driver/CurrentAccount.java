@@ -43,7 +43,7 @@ public class CurrentAccount extends BankAccount{
                         id=j;
                     }
                     if(maxi==0){
-                        sb=null;
+                        sb=new StringBuilder();
                         break;
                     }
                     prev=(char)(id+'A');
