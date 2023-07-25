@@ -34,13 +34,20 @@ public class BankAccount {
 
             StringBuilder accountNumber = new StringBuilder();
 
-            for (int i = 0; i < digits; i++) {
-                int maxDigitValue = Math.min(9, sum);
-                int digit = (i == digits - 1) ? sum : (int) (Math.random() * (maxDigitValue + 1));
-                sum -= digit;
-                accountNumber.append(digit);
+//            for (int i = 0; i < digits; i++) {
+//                int maxDigitValue = Math.min(9, sum);
+//                int digit = (i == digits - 1) ? sum : (int) (Math.random() * (maxDigitValue + 1));
+//                sum -= digit;
+//                accountNumber.append(digit);
+//            }
+            while(sum>9){
+                accountNumber.append("9");
+                sum-=9;
             }
-
+            while(accountNumber.length()<digits){
+                accountNumber.append(sum);
+                sum=0;
+            }
             return accountNumber.toString();
         }
     }
