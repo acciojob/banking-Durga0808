@@ -29,7 +29,7 @@ public class CurrentAccount extends BankAccount{
             int fr[]=new int [26];
             for(int i=0;i<tradeLicenseId.length();i++){
                 char c=tradeLicenseId.charAt(i);
-                fr[c-'a']++;
+                fr[c-'A']++;
             }
             StringBuilder sb=new StringBuilder();
             int i=0;
@@ -37,7 +37,7 @@ public class CurrentAccount extends BankAccount{
             while(i<tradeLicenseId.length()){
                 int maxi=0;int id=0;
                 for(int j=0;j<26;j++){
-                    if(fr[j]>maxi&&prev!=(char)(j+'a')){
+                    if(fr[j]>maxi&&prev!=(char)(j+'A')){
                         maxi=fr[j];
                         //prev=j+'a';
                         id=j;
@@ -46,7 +46,7 @@ public class CurrentAccount extends BankAccount{
                         sb=null;
                         break;
                     }
-                    prev=(char)(id+'a');
+                    prev=(char)(id+'A');
                     sb.append(prev);
                     fr[id]--;
                     i++;
