@@ -26,39 +26,68 @@ public class CurrentAccount extends BankAccount{
         // If the characters of the license Id can be rearranged to create any valid license Id
         // If it is not possible, throw "Valid License can not be generated" Exception
         if(!isvalid(tradeLicenseId)){
-            int fr[]=new int [26];
-            for(int i=0;i<tradeLicenseId.length();i++){
-                char c=tradeLicenseId.charAt(i);
-                fr[c-'A']++;
-            }
-            StringBuilder sb=new StringBuilder();
-            int i=0;
-            char prev='*';
-            while(i<tradeLicenseId.length()){
-                int maxi=0;int id=0;
-                for(int j=0;j<26;j++){
-                    if(fr[j]>maxi&&prev!=(char)(j+'A')){
-                        maxi=fr[j];
-                        //prev=j+'a';
-                        id=j;
-                    }
-                    if(maxi==0){
-                        sb=new StringBuilder();
-                        break;
-                    }
-                    prev=(char)(id+'A');
-                    sb.append(prev);
-                    fr[id]--;
-                    i++;
-                }
-            }
-
-            if (isvalid(sb.toString())) {
-               tradeLicenseId=sb.toString();
-            } else {
+            String rearranged = RearrangeString(tradeLicenseId);
+            if(rearranged==""){
                 throw new Exception("Valid License can not be generated");
             }
+            else
+                this.tradeLicenseId = rearranged;
         }
+    }
+    public char getCountChar(int[] count)
+    {
+        int max =0;
+        char ch =0;
+        for(int i=0;i<26;i++)
+        {
+            if(count[i]>max)
+            {
+                max = count[i];
+                ch = (char)((int)'A'+i);
+            }
+        }
+        return ch;
+    }
+    public String RearrangeString(String s)
+    {
+        int N = s.length();
+        int[] count = new int[26];
+        for(int i=0;i<26;i++)
+        {
+            count[i] =0;
+        }
+        for(char c : s.toCharArray())
+        {
+            count[(int)c-(int)'A']++;
+        }
+        char c_max = getCountChar(count);
+        int maxCount = count[(int)c_max-(int)'A'];
+        if(maxCount>(N+1)/2)
+            return "";
+        String res = "";
+        for(int i=0;i<N;i++)
+        {
+            res +=' ';
+        }
+        int ind =0;
+        while(maxCount>0)
+        {
+            res = res.substring(0,ind)+c_max+res.substring(ind+1);
+            ind = ind+2;
+            maxCount--;
+        }
+        count[(int)c_max-(int)'A'] = 0;
+        for(int i =0;i<26;i++)
+        {
+            while(count[i]>0)
+            {
+                ind=(ind>=N)?1:ind;
+                res = res.substring(0,ind)+(char)((int)'A'+i)+res.substring(ind+1);
+                ind+=2;
+                count[i]--;
+            }
+        }
+        return res;
     }
     private boolean isvalid (String id){
         if(id.length()==0){
